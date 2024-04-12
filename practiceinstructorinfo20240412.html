@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Instructor Information</title>
+    </head>
+
+    <body>
+        <h1>Page to display instructor information using Fetch</h1>
+        <p>Name: <span id="name">Unknown</span></p>
+        <p>Office: <span id="office">Unknown</span></p>
+        <p>Phone: <span id="phone">Unknown</span></p>
+
+        <p>
+            <button type="button" id="btnUpdate">
+                Update Instructor Information
+            </button>
+            <button type="button" id="btnUpdateFetch">
+                Use Fetch To Update Instructor Information
+            </button>
+        </p>
+    </body>
+    <script>
+        "use strict"
+
+        //fetch().then().then().catch()
+        window.onload = function()
+        {
+            document.getElementById("btnUpdate").onclick = function ()
+            {
+                document.getElementById("name").innerText = "Test Name"
+                document.getElementById("office").innerText = "Test Office Space"
+                document.getElementById("phone").innerText = "Test phone"
+
+            }
+
+            // document.getElementById("btnUpdateFetch").onclick = function ()
+            // {
+            //     //fetch().then().then().catch();
+            //     fetch("data/oneinstructor.json").then(function (response)
+            //     {
+            //         //alert(response.ok);
+            //         if(response.ok)
+            //         {
+            //             alert(response.ok + " "+ response.status)
+            //         }
+            //         else
+            //         {
+            //             throw new Error("Network response was not OK: " + response.status)
+            //             //console.log("First: Network response was not OK: " + response.status)
+            //         }
+            //     }).catch(function (error){
+            //         console.log("Second: Network response was not OK: " + error.message)
+            //     });
+            // }
+
+            // document.getElementById("btnUpdateFetch").onclick = function ()
+            // {
+            //     //fetch().then().then().catch();
+            //     fetch("data/oneinstructor.json").then(function (response)
+            //     {
+            //         //alert(response.ok);
+            //         if(response.ok)
+            //         {
+            //             //alert(response.ok + " "+ response.status)
+            //             return response.json();
+            //         }
+            //         throw new Error("Network response was not OK: " + response.status)
+            //
+            //     }).then(function (jsonObject)
+            //     {
+            //         document.getElementById("name").innerText = jsonObject.name
+            //         document.getElementById("office").innerText = jsonObject.office
+            //         document.getElementById("phone").innerText = jsonObject.phone
+            //
+            //     }).catch(function (error){
+            //         console.log("Second: Network response was not OK: " + error.message)
+            //     });
+            // }
+
+
+            document.getElementById("btnUpdateFetch").onclick = function ()
+            {
+                //fetch().then().then().catch();
+                fetch("data/allinstructors.json").then(function (response)
+                {
+                    //alert(response.ok);
+                    if(response.ok)
+                    {
+                        //alert(response.ok + " "+ response.status)
+                        return response.json();
+                    }
+                    throw new Error("Network response was not OK: " + response.status)
+
+                }).then(function (jsonArray)
+                {
+                    let name = []
+                    let office = []
+                    let phone = ""
+
+                    for (let instructor of jsonArray)
+                    {
+                        name.push(instructor.name)
+                        office.push(instructor.office)
+                        phone += instructor.phone + ", "
+                    }
+
+                    document.getElementById("name").innerText = name.join(",")
+                    document.getElementById("office").innerText = office.join(",")
+                    document.getElementById("phone").innerText = phone.slice(0,-2)
+
+                }).catch(function (error){
+                    console.log("Second: Network response was not OK: " + error.message)
+                });
+            }
+        }
+    </script>
+
+</html>
